@@ -1,0 +1,378 @@
+:root {
+  --primary-color: #2563eb;
+  --success-color: #10b981;
+  --warning-color: #f59e0b;
+  --danger-color: #ef4444;
+  --light-color: #f9fafb;
+  --dark-color: #111827;
+  --gray-light: #e5e7eb;
+  --text-color: #374151;
+  --bg-color: #ffffff;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+  line-height: 1.5;
+  color: var(--text-color);
+  background-color: #f3f4f6;
+  padding: 20px;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.card {
+  background-color: var(--bg-color);
+  border: 1px solid var(--gray-light);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+h1,
+h2,
+h3 {
+  color: var(--dark-color);
+  margin-bottom: 15px;
+}
+
+h1 {
+  font-size: 24px;
+  border-bottom: 2px solid var(--primary-color);
+  padding-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--gray-light);
+  border-radius: 4px;
+}
+
+button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s;
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.btn-success {
+  background-color: var(--success-color);
+  color: white;
+}
+
+.btn-danger {
+  background-color: var(--danger-color);
+  color: white;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+.quick-actions {
+  display: flex;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+th,
+td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--gray-light);
+}
+
+th {
+  background-color: var(--light-color);
+  font-weight: 600;
+}
+
+.critical {
+  color: var(--danger-color);
+  font-weight: 600;
+}
+
+.canvas-container {
+  width: 100%;
+  height: 400px;
+  border: 1px solid var(--gray-light);
+  margin-top: 20px;
+}
+
+.input-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 2fr;
+  gap: 15px;
+  align-items: end;
+}
+
+.error-message {
+  color: var(--danger-color);
+  background-color: #fee2e2;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 15px;
+  transition: opacity 0.5s;
+}
+
+.wizard-steps {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  margin-bottom: 30px;
+}
+
+.wizard-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.step-number {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #e5e7eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.step-label {
+  font-size: 12px;
+  text-align: center;
+}
+
+.wizard-progress {
+  position: absolute;
+  top: 15px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: #e5e7eb;
+  z-index: 0;
+}
+
+.wizard-progress-bar {
+  height: 100%;
+  background-color: var(--primary-color);
+  transition: width 0.3s;
+  width: 0%;
+}
+
+.wizard-step.active .step-number {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.wizard-step.completed .step-number {
+  background-color: var(--success-color);
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .input-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+
+
+.results-card {
+  border-radius: 10px;
+  border: 1px solid #e3e8ef;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  overflow: hidden;
+}
+
+.card-header {
+  padding: 16px 20px;
+  background-color: #f8fafc;
+  border-bottom: 1px solid #e3e8ef;
+}
+
+.results-title .badge {
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 8px 12px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  padding: 20px;
+}
+
+.result-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px;
+  background: #ffffff;
+  border-radius: 8px;
+  border: 1px solid #e3e8ef;
+  transition: all 0.2s ease;
+}
+
+.result-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.result-item.critical {
+  border-left: 4px solid #ef4444;
+}
+
+.result-icon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f1f5f9;
+  border-radius: 8px;
+  color: #3b82f6;
+  font-size: 18px;
+}
+
+.result-item.critical .result-icon {
+  color: #ef4444;
+}
+
+.result-content {
+  flex: 1;
+}
+
+.result-label {
+  margin: 0;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.result-value {
+  margin: 4px 0 0;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.result-unit {
+  font-size: 0.9rem;
+  color: #64748b;
+  font-weight: 400;
+}
+
+.critical-path-container {
+  padding: 0 20px 20px;
+}
+
+.path-title {
+  font-size: 1rem;
+  color: #1e293b;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.critical-path {
+  background: #fff;
+  border-radius: 8px;
+  border: 1px solid #e3e8ef;
+  padding: 16px;
+  min-height: 60px;
+  font-family: 'Roboto Mono', monospace;
+}
+
+.empty-path {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #94a3b8;
+  padding: 20px;
+  text-align: center;
+}
+
+.empty-path i {
+  font-size: 24px;
+  margin-bottom: 10px;
+  opacity: 0.6;
+}
+
+.empty-path p {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+/* Estado cuando hay ruta crítica */
+.critical-path.has-path {
+  color: #ef4444;
+  font-weight: 500;
+  background: #fff5f5;
+  border-color: #fee2e2;
+}
+
+@media (max-width: 768px) {
+  .results-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .results-grid {
+    grid-template-columns: 1fr;
+  }
+}
