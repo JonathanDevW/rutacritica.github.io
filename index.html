@@ -1,1 +1,238 @@
-<h1>pages<h1>
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sistema de Ruta Crítica (CPM)</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="./css/styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <div class="cpm-header">
+        <h1><i class="fas fa-project-diagram"></i> Ruta Crítica (CPM)</h1>
+      </div>
+
+      <!-- Wizard Steps -->
+      <div class="wizard-steps">
+        <div class="wizard-step active" data-step="1">
+          <div class="step-number">1</div>
+          <div class="step-label">Configuración</div>
+        </div>
+        <div class="wizard-step" data-step="2">
+          <div class="step-number">2</div>
+          <div class="step-label">Agregar Tareas</div>
+        </div>
+        <div class="wizard-step" data-step="3">
+          <div class="step-number">3</div>
+          <div class="step-label">Dependencias</div>
+        </div>
+        <div class="wizard-step" data-step="4">
+          <div class="step-number">4</div>
+          <div class="step-label">Calcular</div>
+        </div>
+        <div class="wizard-step" data-step="5">
+          <div class="step-number">5</div>
+          <div class="step-label">Resultados</div>
+        </div>
+        <div class="wizard-progress">
+          <div class="wizard-progress-bar" id="progress-bar"></div>
+        </div>
+      </div>
+
+<div class="container-fluid">
+  <div class="row g-3">
+    <!-- Columna Izquierda - Formulario -->
+    <div class="col-md-6">
+      <div class="card h-100">
+        <div class="card-body">
+          <div class="mb-3">
+            <label for="time-unit" class="form-label">Unidad de Tiempo</label>
+            <select class="form-select" id="time-unit">
+              <option value="hours">Horas</option>
+              <option value="days" selected>Días</option>
+              <option value="weeks">Semanas</option>
+              <option value="months">Meses</option>
+              <option value="years">Años</option>
+            </select>
+          </div>
+
+          <div class="row g-3 mb-3">
+            <div class="col-md-6">
+              <label for="task-name" class="form-label">Nombre de Tarea</label>
+              <input type="text" class="form-control" id="task-name" placeholder="Ej: Diseño inicial">
+            </div>
+
+            <div class="col-md-6">
+              <label for="task-duration" class="form-label">Duración</label>
+              <input type="number" class="form-control" id="task-duration" min="1" placeholder="Ej: 5">
+            </div>
+
+            <div class="col-12">
+              <label for="task-dependencies" class="form-label">Dependencias (IDs separados por comas)</label>
+              <input type="text" class="form-control" id="task-dependencies" placeholder="Ej: 1,3,5">
+            </div>
+          </div>
+
+          <div class="d-flex gap-2">
+            <button id="add-task" class="btn btn-primary flex-grow-1">
+              <i class="fas fa-plus me-1"></i> Agregar Tarea
+            </button>
+            <button id="calculate-cpm" class="btn btn-success flex-grow-1">
+              <i class="fas fa-calculator me-1"></i> Calcular Ruta
+            </button>
+            <button id="reset-project" class="btn btn-danger flex-grow-1">
+              <i class="fas fa-trash me-1"></i> Reiniciar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Columna Derecha - Tabla -->
+    <div class="col-md-6">
+      <div class="card h-100">
+<div class="card-header text-white">
+  <h2 class="h6 mb-0 results-title">
+    <span class="badge bg-white text-primary">
+      <i class="fas fa-table me-2"></i> Tareas del Proyecto
+    </span>
+  </h2>
+</div>
+        <div class="card-body p-0">
+          <div class="table-responsive">
+            <table class="table table-striped table-hover mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th>ID</th>
+                  <th>Tarea</th>
+                  <th>Duración</th>
+                  <th>Dependencias</th>
+                  <th>IC</th>
+                  <th>TC</th>
+                  <th>IL</th>
+                  <th>TL</th>
+                  <th>Holgura</th>
+                  <th>Crítica</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="tasks-body">
+                <!-- Tareas se agregarán aquí -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+      <div class="card results-card">
+        <div class="card-header">
+          <h2 class="results-title">
+            <span class="badge bg-success"
+              ><i class="fas fa-chart-line"></i> Resultados del Análisis</span
+            >
+          </h2>
+        </div>
+
+        <div class="results-grid">
+          <div class="result-item">
+            <div class="result-icon">
+              <i class="fas fa-clock"></i>
+            </div>
+            <div class="result-content">
+              <h3 class="result-label">Duración Total</h3>
+              <p class="result-value" id="total-duration">
+                0 <span class="result-unit">días</span>
+              </p>
+            </div>
+          </div>
+
+          <div class="result-item critical">
+            <div class="result-icon">
+              <i class="fas fa-exclamation-circle"></i>
+            </div>
+            <div class="result-content">
+              <h3 class="result-label">Tareas Críticas</h3>
+              <p class="result-value" id="critical-tasks">
+                0 <span class="result-unit">tareas</span>
+              </p>
+            </div>
+          </div>
+
+          <div class="result-item">
+            <div class="result-icon">
+              <i class="fas fa-check-circle"></i>
+            </div>
+            <div class="result-content">
+              <h3 class="result-label">Tareas No Críticas</h3>
+              <p class="result-value" id="non-critical-tasks">
+                0 <span class="result-unit">tareas</span>
+              </p>
+            </div>
+          </div>
+
+          <div class="result-item">
+            <div class="result-icon">
+              <i class="fas fa-hourglass-half"></i>
+            </div>
+            <div class="result-content">
+              <h3 class="result-label">Holgura Mínima</h3>
+              <p class="result-value" id="min-slack">
+                0 <span class="result-unit">días</span>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="critical-path-container">
+          <h3 class="path-title">
+            <i class="fas fa-road"></i> Ruta Crítica Identificada
+          </h3>
+          <div class="critical-path" id="critical-path">
+            <div class="empty-path">
+              <i class="fas fa-project-diagram"></i>
+              <p>La ruta crítica aparecerá aquí después del cálculo</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2><i class="fas fa-network-wired"></i> Diagrama de Red</h2>
+        <div class="canvas-container">
+          <canvas id="cpm-canvas"></canvas>
+        </div>
+        <div style="margin-top: 15px; display: flex; gap: 10px">
+          <button id="zoom-in" class="btn-primary">
+            <i class="fas fa-search-plus"></i> Zoom In
+          </button>
+          <button id="zoom-out" class="btn-primary">
+            <i class="fas fa-search-minus"></i> Zoom Out
+          </button>
+          <button id="reset-view" class="btn-primary">
+            <i class="fas fa-sync-alt"></i> Reiniciar Vista
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+      integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
+      crossorigin="anonymous"
+    ></script>
+    <script src="./js/app.js"></script>
+  </body>
+</html>
